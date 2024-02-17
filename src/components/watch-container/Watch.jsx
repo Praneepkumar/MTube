@@ -1,11 +1,11 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { closeMenu } from "../../redux/appSlice";
 import { useSearchParams } from "react-router-dom";
-import getVideoById from "../../utils/helpers/getVideoById";
 import WatchLeft from "./WatchLeft";
 import WatchRight from "./WatchRight";
-import { setHomePage, setWatchVideo } from "../../redux/videosSlice";
+import { closeMenu } from "../../redux/appSlice";
+import { setWatchVideo } from "../../redux/videosSlice";
+import getVideoById from "../../utils/helpers/getVideoById";
 
 const Watch = () => {
   const dispatch = useDispatch();
@@ -15,7 +15,6 @@ const Watch = () => {
 
   useEffect(() => {
     dispatch(closeMenu());
-    dispatch(setHomePage(false));
     const getVideoData = async () => {
       const data = await getVideoById(id);
       dispatch(setWatchVideo(data));

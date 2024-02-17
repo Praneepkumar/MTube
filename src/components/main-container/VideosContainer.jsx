@@ -1,25 +1,22 @@
-import VideoCard from "./VideoCard";
-import { useSelector } from "react-redux";
-import { ShimmerCard } from "../layout/Shimmer";
 import { Link } from "react-router-dom";
+import VideoCard from "./VideoCard";
+import { ShimmerCard } from "../layout/Shimmer";
 
-const VideosContainer = () => {
-  const isMenuOpen = useSelector((store) => store.app.isMenuOpen);
-  const videos = useSelector((store) => store.videos.homePageData);
+const VideosContainer = ({ videos, className, ...rest }) => {
+  const renderVideoCards = videos?.length > 0;
 
-  if (!videos) return <ShimmerCard />;
+  if (!renderVideoCards) return <ShimmerCard />;
   return (
     <div
-      className={`video-container pb-32 flex flex-wrap ${
-        isMenuOpen ? "gap-x-3" : "gap-x-4"
-      } gap-y-3`}>
+      className={`video-container pb-32 flex flex-wrap gap-y-3 ${className}`}
+      {...rest}
+    >
       {videos.map((video) => (
-        <Link to={`/watch?v=${video?.id}`} key={video?.id}>
+        <Link to={`/watch?v=${video.id}`} key={video.id}>
           <VideoCard info={video} />
         </Link>
       ))}
     </div>
   );
 };
-
 export default VideosContainer;

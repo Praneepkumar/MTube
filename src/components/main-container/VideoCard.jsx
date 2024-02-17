@@ -1,3 +1,5 @@
+import { useState } from "react";
+import { useSelector } from "react-redux";
 import {
   DotsThreeOutlineVertical,
   Television,
@@ -6,10 +8,9 @@ import {
 import getTimeformat from "../../utils/helpers/getTimeformat";
 import getDuration from "../../utils/helpers/getDuration";
 import getStatsCount from "../../utils/helpers/getStatsCount";
-import { useSelector } from "react-redux";
 import { TITLE_MAX_LENGTH } from "../../utils/constants";
 import getTextTrim from "../../utils/helpers/getTextTrim";
-import { useState } from "react";
+
 const VideoCard = ({ info }) => {
   const [showIconInfo, setShowIconInfo] = useState(false);
   const isMenuOpen = useSelector((store) => store.app.isMenuOpen);
@@ -35,27 +36,21 @@ const VideoCard = ({ info }) => {
     ? getTextTrim(title, 0, TITLE_MAX_LENGTH)
     : getTextTrim(title, 0, 65);
 
-  const handleInfoIconIn = () => {
-    setShowIconInfo(true);
-  };
-  const handleInfoIconOut = () => {
-    setShowIconInfo(false);
-  };
+  const toggleInfoIcon = () => setShowIconInfo(prevState => !prevState);
+
   return (
     <div
-      className={`video-card ${
-        isMenuOpen
+      className={`video-card ${isMenuOpen
           ? "max-w-[22rem] lg:max-w-[19.8rem]"
           : "max-w-[25rem] lg:max-w-[21.4rem]"
-      } flex ${isHomePage ? "flex-col gap-3" : "gap-[10px] items-start"}`}>
+        } flex ${isHomePage ? "flex-col gap-3" : "gap-[10px] items-start"}`}>
       <div
-        className={`rounded-xl ${
-          isHomePage
+        className={`rounded-xl ${isHomePage
             ? isMenuOpen
               ? "w-[22rem] h-[12rem] lg:max-w-[19.8rem] lg:h-[11.7rem]"
               : "w-[25rem]  h-[13.5rem] lg:max-w-[21.4rem] lg:h-[11.7rem]"
             : "w-[11rem] h-[6rem] rounded-lg"
-        }  overflow-hidden relative`}>
+          }  overflow-hidden relative`}>
         <img
           className='w-full h-full object-cover'
           src={isHomePage ? homePageURL : medium?.url}
@@ -66,9 +61,8 @@ const VideoCard = ({ info }) => {
         </div>
       </div>
       <div
-        className={`${
-          isHomePage ? "flex items-start gap-3 py-2 " : "w-[14rem]"
-        } `}>
+        className={`${isHomePage ? "flex items-start gap-3 py-2 " : "w-[14rem]"
+          } `}>
         {isHomePage && (
           <div className='channel-logo flex items-center justify-center min-w-9 h-9 rounded-full bg-gradient-to-b from-neutral-600 to-black/75'>
             <Television size={22} color={"#fff"} />
@@ -76,36 +70,32 @@ const VideoCard = ({ info }) => {
         )}
         <div className='flex w-full flex-col gap-1 items-start'>
           <div
-            onMouseEnter={handleInfoIconIn}
-            onMouseLeave={handleInfoIconOut}
+            onMouseEnter={toggleInfoIcon}
+            onMouseLeave={toggleInfoIcon}
             className='w-full flex items-start justify-between'>
             <h3
-              className={`title w-[95%] ${
-                isHomePage ? "font-medium" : "text-sm font-[500]"
-              }`}>
+              className={`title w-[95%] ${isHomePage ? "font-medium" : "text-sm font-[500]"
+                }`}>
               {titleTrim}
             </h3>
 
             <div
-              className={`pt-1  ${
-                showIconInfo
+              className={`pt-1  ${showIconInfo
                   ? "opacity-100 pointer-events-auto"
                   : "opacity-0 pointer-events-none"
-              }`}>
+                }`}>
               <DotsThreeOutlineVertical size={14} weight='fill' />
             </div>
           </div>
           <div className='info flex flex-col'>
             <p
-              className={`text-zinc-500 ${
-                isHomePage ? "text-[15px] " : "text-[13px]"
-              }`}>
+              className={`text-zinc-500 ${isHomePage ? "text-[15px] " : "text-[13px]"
+                }`}>
               {channelTitle}
             </p>
             <div
-              className={`flex items-center ${
-                isHomePage ? "gap-[2px] text-[15px]" : "gap-[1px] text-[13px]"
-              } text-zinc-500`}>
+              className={`flex items-center ${isHomePage ? "gap-[2px] text-[15px]" : "gap-[1px] text-[13px]"
+                } text-zinc-500`}>
               <p>{views}</p>
 
               <DotOutline size={18} weight='fill' />

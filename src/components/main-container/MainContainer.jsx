@@ -1,18 +1,24 @@
-import { useState } from "react";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import VideosContainer from "./VideosContainer";
 import { setHomePage } from "../../redux/videosSlice";
-import { useDispatch } from "react-redux";
+
 const MainContainer = () => {
   const dispatch = useDispatch();
-  useState(() => {
-    const unMount = dispatch(setHomePage(true));
+  const isMenuOpen = useSelector((store) => store.app.isMenuOpen);
+  const videos = useSelector((store) => store.videos.homePageData);
+  const className = isMenuOpen ? "gap-x-3" : "gap-x-4";
+
+  useEffect(() => {
+    dispatch(setHomePage(true));
     return () => {
-      unMount();
+      dispatch(setHomePage(false));
     };
   }, []);
+
   return (
     <div className='w-full pl-6 py-3 h-screen overflow-y-auto'>
-      <VideosContainer />
+      <VideosContainer videos={videos} className={className} />
     </div>
   );
 };
